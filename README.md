@@ -38,8 +38,8 @@ These 75+ queries will help to learn sql.
        - multiple unique fields
            
      - Add a unique constraint to an existing table 
-         - for a single field 
-         - for 2 or, more fields combining 
+       - for a single field 
+       - for 2 or, more fields combining 
      - Drop a unique constraint
 
    - Not Null
@@ -77,7 +77,6 @@ These 75+ queries will help to learn sql.
    - Insert a row into a table by providing data for a few fields. 
    - Insert multiple rows at a time into a table. 
    - Insert into a table by selecting needed data from another table.
-
    - Update a specific field's data in a table.
    - Update a field's data for multiple rows at a time.
    - Delete a row from a table.
