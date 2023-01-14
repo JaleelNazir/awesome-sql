@@ -147,7 +147,6 @@ These 75+ queries will help to learn sql.
        - multiple fields 
        - Add a DEFAULT value constraint to an existing field 
        - Remove DEFAULT value constraint from an existing field
-
       ``` sql
         CREATE TABLE one_default (id INT NOT NULL,
           first_name VARCHAR(255),
@@ -171,19 +170,142 @@ These 75+ queries will help to learn sql.
        - a single field 
        - 2 or, more fields combining 
        - multiple separated fields
+        ``` sql
+        CREATE TABLE one_check (id INT NOT NULL,
+          first_name VARCHAR(255),
+          last_name VARCHAR(255),
+          age int CHECK (age>=18)
+        );
 
-     - Add a CHECK constraint to an existing table 
-       - for a single field 
-       - for 2 or, more fields combining
+        CREATE TABLE combined_check (id INT NOT NULL,
+          first_name VARCHAR(255),
+          last_name VARCHAR(255),
+          age int, 
+          cgpa DOUBLE,
+          CONSTRAINT CHK_combined_check CHECK (age>=18 and cgpa>=7.5)
+        );
+
+        CREATE TABLE two_check (id INT NOT NULL,
+          first_name VARCHAR(255),
+          last_name VARCHAR(255),
+          age int CHECK (age>=18),
+          cgpa DOUBLE CHECK (cgpa>=7.5)
+        );
+        ```
+
+      - Add a CHECK constraint to an existing table
+          - a single field 
+          - 2 or, more fields combining
+          ``` sql
+          CREATE TABLE one_check (id INT NOT NULL,
+            first_name VARCHAR(255),
+            last_name VARCHAR(255),
+            age int,
+            cgpa DOUBLE
+          );
+
+          ALTER TABLE one_check ADD CHECK (age>=18);
+          ALTER TABLE one_check ADD CONSTRAINT CHK_one_check CHECK (age>=18 AND cgpa>=7.5);
+          ```
+
+      -  Drop a  CHECK constraint
+          ``` sql
+
+          SHOW CREATE TABLE one_check;
+          + -----------
+          CREATE TABLE `one_check` (
+            `id` int NOT NULL,
+            `first_name` varchar(255) DEFAULT NULL,
+            `last_name` varchar(255) DEFAULT NULL,
+            `age` int DEFAULT NULL,
+            CONSTRAINT `one_check_chk_1` CHECK ((`age` >= 18))
+          ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
+          + -----------
+          
+          `user the conatra`
+          ALTER TABLE one_check DROP CHECK one_check_chk_1;
+          ```
+
    - Foreign Key 
      - Create a Table with 
        - a single foreign key field 
-       - 2 or, more fields combining foreign key 
-       - multiple foreign key fields 
-     - Add a foreign key constraint to a table 
-       - for a single field 
-       - for 2 or, more fields combinig 
+        ``` sql
+        CREATE TABLE Persons (
+          ID int NOT NULL,
+          LastName varchar(255) NOT NULL,
+          FirstName varchar(255),
+          Age int,
+          PRIMARY KEY (ID)
+        );
+
+        CREATE TABLE Orders (
+          OrderID int NOT NULL,
+          OrderNumber int NOT NULL,
+          PersonID int,
+          PRIMARY KEY (OrderID),
+          FOREIGN KEY (PersonID) REFERENCES Persons(ID)
+        );
+        ```
+
+      - multiple foreign key fields 
+
+        ``` sql
+        CREATE TABLE Persons (
+          ID int NOT NULL,
+          LastName varchar(255) NOT NULL,
+          FirstName varchar(255),
+          Age int,
+          PRIMARY KEY (ID)
+        );
+
+        CREATE TABLE Address (
+          AddressID int NOT NULL,
+          Address_1 varchar(255) NOT NULL,
+          Address_2 varchar(255),
+          city varchar(255),
+          country varchar(255),
+          pincode varchar(255),
+          PRIMARY KEY (AddressID)
+        );
+
+        CREATE TABLE Orders (
+          OrderID int NOT NULL,
+          OrderNumber int NOT NULL,
+          PersonID int,
+          AddressID int,
+          PRIMARY KEY (OrderID),
+          FOREIGN KEY (PersonID) REFERENCES Persons(ID),
+          FOREIGN KEY (AddressID) REFERENCES Address(AddressID)
+        );
+        ```
+
+     - Add a foreign key constraint to existing table 
+       - a single field
+        ``` sql
+        CREATE TABLE Persons (
+          ID int NOT NULL,
+          LastName varchar(255) NOT NULL,
+          FirstName varchar(255),
+          Age int,
+          PRIMARY KEY (ID)
+        );
+
+        CREATE TABLE Orders (
+            OrderID int NOT NULL,
+            OrderNumber int NOT NULL,
+            PersonID int,
+            PRIMARY KEY (OrderID)
+        );
+
+        ALTER TABLE Orders ADD FOREIGN KEY (PersonID) REFERENCES Persons(ID);
+        ```
+
      - Drop a foreign key
+        ``` sql
+        ALTER TABLE Orders DROP CONSTRAINT orders_ibfk_1;
+        ```
+        
+
  - Insert, Update, Delete
    - Insert a row into a table. 
    - Insert a row into a table by providing data for a few fields. 
@@ -224,3 +346,4 @@ These 75+ queries will help to learn sql.
 # References
 
 - (Swapna Kumar) - https://twitter.com/swapnakpanda/status/1554435629886218240
+- (W3 Schools) - https://www.w3schools.com/sql/
